@@ -20,7 +20,7 @@ function simple_ping() {
 }
 
 add_action( 'wp_enqueue_scripts', function () {
-	$handle = 'simple-pring';
+	$handle = 'simple-ping';
 	$src    = plugins_url( 'simple-ping.js', __FILE__ );
 
 	wp_enqueue_script( $handle, $src, [ 'jquery' ] );
