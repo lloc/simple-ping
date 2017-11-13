@@ -3,11 +3,12 @@ jQuery(document).ready(function($) {
 
   $('body').click(function() {
     var settings = {
-      url: LLOC.ajaxurl,
-      data: {action: 'simple_ping', msg: 'ping'}
+      url: LLOC.apiurl + 'ping',
+      type: 'POST',
+      data: {msg: 'ping'}
     };
     $.ajax(settings).done(function(response) {
-      console.debug(response.data);
+      console.debug(response);
     });
   });
 });

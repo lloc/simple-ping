@@ -8,23 +8,35 @@ Version: 0.0.1
 Author URI: http://lloc.de/
 */
 
-add_action( 'wp_ajax_simple_ping', 'simple_ping' );
-add_action( 'wp_ajax_nopriv_simple_ping', 'simple_ping' );
+define( 'SIMPLE_PING_NS', 'lloc/v1' );
 
-function simple_ping() {
-	if ( 'ping' == $_REQUEST['msg'] ) {
-		wp_send_json_success( 'pong' );
+add_action( 'rest_api_init', function () {
+	register_rest_route( SIMPLE_PING_NS, 'ping', [
+			'methods'  => \WP_REST_Server::EDITABLE,
+			'callback' => 'simple_ping',
+			'args'     => [ 'msg' => [ 'required' => true ] ],
+		]
+	);
+
+} );
+
+function simple_ping( WP_REST_Request $request ) {
+	$data = 'Sorry, but I expected a "ping".';
+
+	if ( 'ping' == $request->get_param( 'msg' ) ) {
+		$data = 'pong';
 	}
 
-	wp_send_json_error( 'Sorry, but I expected a "ping".' );
+	return rest_ensure_response( $data );
 }
 
 add_action( 'wp_enqueue_scripts', function () {
-	$handle = 'simple-pring';
-	$src    = plugins_url( 'simple-ping.js', __FILE__ );
+	$handle   = 'simple-ping';
+	$src      = plugins_url( 'simple-ping.js', __FILE__ );
+	$endpoint = sprintf( '/wp-json/%s/', SIMPLE_PING_NS );
 
 	wp_enqueue_script( $handle, $src, [ 'jquery' ] );
 	wp_localize_script( $handle, 'LLOC', [
-		'ajaxurl' => admin_url( 'admin-ajax.php' )
+		'apiurl' => site_url( $endpoint )
 	] );
 } );
