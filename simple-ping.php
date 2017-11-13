@@ -8,24 +8,17 @@ Version: 0.0.1
 Author URI: http://lloc.de/
 */
 
-define( 'SIMPLE_PING_NS', 'lloc/v1' );
-
 add_action( 'rest_api_init', function () {
-	register_rest_route( SIMPLE_PING_NS, 'ping', [
+	register_rest_route( 'lloc/v1', 'ping', [
 			'methods'  => \WP_REST_Server::EDITABLE,
 			'callback' => 'simple_ping',
 			'args'     => [ 'msg' => [ 'required' => true ] ],
 		]
 	);
-
 } );
 
 function simple_ping( WP_REST_Request $request ) {
-	$data = 'Sorry, but I expected a "ping".';
-
-	if ( 'ping' == $request->get_param( 'msg' ) ) {
-		$data = 'pong';
-	}
+	$data = 'ping' == $request->get_param( 'msg' ) ? 'pong' : 'Huhh?';
 
 	return rest_ensure_response( $data );
 }
@@ -33,7 +26,7 @@ function simple_ping( WP_REST_Request $request ) {
 add_action( 'wp_enqueue_scripts', function () {
 	$handle   = 'simple-ping';
 	$src      = plugins_url( 'simple-ping.js', __FILE__ );
-	$endpoint = sprintf( '/wp-json/%s/', SIMPLE_PING_NS );
+	$endpoint = '/wp-json/lloc/v1/';
 
 	wp_enqueue_script( $handle, $src, [ 'jquery' ] );
 	wp_localize_script( $handle, 'LLOC', [
