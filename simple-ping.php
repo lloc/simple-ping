@@ -16,7 +16,7 @@ function simple_ping() {
 		wp_send_json_success( 'pong' );
 	}
 
-	wp_send_json_error( 'Sorry, but I expected a "ping".' );
+	wp_send_json_error( 'Huhh?' );
 }
 
 add_action( 'wp_enqueue_scripts', function () {
