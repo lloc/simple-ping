@@ -4,7 +4,7 @@ jQuery(document).ready(function($) {
   $('body').click(function() {
     var settings = {
       url: LLOC.apiurl + 'ping',
-      type: 'POST',
+      type: Math.random() < 0.5 ? 'GET' : 'POST',
       data: {msg: 'ping'}
     };
     $.ajax(settings).done(function(response) {

@@ -9,18 +9,34 @@ Author URI: http://lloc.de/
 */
 
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'lloc/v1', 'ping', [
+	register_rest_route( 'lloc/v1', 'ping',
+		[
+			'methods'  => \WP_REST_Server::READABLE,
+			'callback' => 'read_ping',
+			'args'     => [ 'msg' => [ 'required' => true ] ],
+		],
+		[
 			'methods'  => \WP_REST_Server::EDITABLE,
-			'callback' => 'simple_ping',
+			'callback' => 'edit_ping',
 			'args'     => [ 'msg' => [ 'required' => true ] ],
 		]
 	);
 } );
 
-function simple_ping( WP_REST_Request $request ) {
-	$data = 'ping' == $request->get_param( 'msg' ) ? 'pong' : 'Huhh?';
+function read_ping( WP_REST_Request $request ) {
+	$msg = $request->get_param( 'msg' );
 
-	return rest_ensure_response( $data );
+	if ( 'ping' == $msg ) {
+		$msg = 'pong';
+	}
+
+	return rest_ensure_response( $msg );
+}
+
+function edit_ping( WP_REST_Request $request ) {
+	$msg = $request->get_param( 'msg' );
+
+	return rest_ensure_response( strrev( $msg ) );
 }
 
 add_action( 'wp_enqueue_scripts', function () {
