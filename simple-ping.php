@@ -11,7 +11,7 @@ Author URI: http://lloc.de/
 add_action( 'wp_ajax_simple_ping', 'simple_ping' );
 add_action( 'wp_ajax_nopriv_simple_ping', 'simple_ping' );
 
-function simple_ping() {
+function simple_ping(): void {
 	if ( 'ping' == $_REQUEST['msg'] ) {
 		wp_send_json_success( 'pong' );
 	}
