@@ -8,6 +8,8 @@ Version: 0.0.1
 Author URI: http://lloc.de/
 */
 
+namespace lloc\simple_ping;
+
 add_action( 'wp_ajax_simple_ping', 'simple_ping' );
 add_action( 'wp_ajax_nopriv_simple_ping', 'simple_ping' );
 
