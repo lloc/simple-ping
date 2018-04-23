@@ -8,6 +8,8 @@ Version: 0.0.1
 Author URI: http://lloc.de/
 */
 
+namespace lloc\sp;
+
 add_action( 'rest_api_init', function () {
 	register_rest_route( 'lloc/v1', 'ping', [
 			'methods'  => \WP_REST_Server::EDITABLE,
@@ -17,7 +19,7 @@ add_action( 'rest_api_init', function () {
 	);
 } );
 
-function simple_ping( WP_REST_Request $request ) {
+function simple_ping( \WP_REST_Request $request ): \WP_REST_Response {
 	$data = 'ping' == $request->get_param( 'msg' ) ? 'pong' : 'Huhh?';
 
 	return rest_ensure_response( $data );
