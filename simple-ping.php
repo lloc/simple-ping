@@ -8,7 +8,7 @@ Version: 0.0.1
 Author URI: http://lloc.de/
 */
 
-namespace lloc\sp;
+namespace lloc\simple_ping;
 
 add_action( 'rest_api_init', function () {
 	register_rest_route( 'lloc/v1', 'ping', [
